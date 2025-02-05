@@ -13,12 +13,12 @@ export default function Notepad() {
             return
         }
         const data = e.target.children[1].value;
-        fetch('http://localhost:7070/notes', {
+        fetch(import.meta.env.VITE_URL, {
             method: "POST",
             body: JSON.stringify({"id": 0, "content": data})
         })
         .then(() =>
-            fetch('http://localhost:7070/notes')
+            fetch(import.meta.env.VITE_URL)
             .then((response) => response.json())  
             .then((notes) => setNotes(notes))
         );
@@ -36,11 +36,11 @@ export default function Notepad() {
             return (index != thisNoteIndex)
         });
         setNotes(updatedNotes)
-        fetch(`http://localhost:7070/notes/${deletedNoteId}`, {
+        fetch(`${import.meta.env.VITE_URL}${deletedNoteId}`, {
             method: "DELETE"
         })
         .then(() => 
-            (fetch('http://localhost:7070/notes')
+            (fetch(import.meta.env.VITE_URL)
             .then((response) => response.json())  
             .then((notes) => {
                 setNotes(notes);
@@ -50,7 +50,8 @@ export default function Notepad() {
     }
 
     function updateNotes() {
-        fetch('http://localhost:7070/notes')
+        console.log(import.meta.env.VITE_URL)
+        fetch(import.meta.env.VITE_URL)
         .then((response) => response.json())
         .then((data) => setNotes(data))
     }
